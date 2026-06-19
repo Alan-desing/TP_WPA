@@ -20,7 +20,7 @@ function mostrarUbicacion(posicion) {
     const latitud = posicion.coords.latitude;
     const longitud = posicion.coords.longitude;
 
-    // Si el mapa ya existe, lo eliminamos para actualizarlo
+    // Si el mapa ya existe, se elimina para actualizarlo
     if (mapa) {
         mapa.remove();
     }
