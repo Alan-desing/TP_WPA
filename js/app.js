@@ -1,15 +1,14 @@
-if ("serviceWorker" in navigator) {
+self.addEventListener("install", event => {
 
-    window.addEventListener("load", () => {
-
-        navigator.serviceWorker.register("service-worker.js")
-            .then(() => {
-                console.log("Service Worker registrado.");
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then(cache => {
+                console.log("Guardando archivos...");
+                return cache.addAll(ARCHIVOS_CACHE);
             })
             .catch(error => {
-                console.error("Error al registrar Service Worker:", error);
-            });
+                console.error("Error de caché:", error);
+            })
+    );
 
-    });
-
-}
+});
