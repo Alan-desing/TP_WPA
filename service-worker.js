@@ -1,21 +1,8 @@
 const CACHE_NAME = "relevamiento-v1";
 
 const ARCHIVOS_CACHE = [
-    "/",
-    "/index.html",
+    "./index.html"
 
-    "/css/estilos.css",
-
-    "/js/app.js",
-    "/js/camara.js",
-    "/js/ocr.js",
-    "/js/ubicacion.js",
-    "/js/copiar.js",
-
-    "/manifest/manifest.json",
-
-    "/assets/iconos/icono-192.jpeg",
-    "/assets/iconos/icono-512.jpeg"
 ];
 
 
