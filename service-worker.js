@@ -8,6 +8,9 @@ const ARCHIVOS_CACHE = [
     "./js/ubicacion.js",
     "./js/ocr.js",
     "./js/copiar.js",
+    "./manifest/manifest.json",
+    "./assets/iconos/icono-192.jpeg",
+    "./assets/iconos/icono-512.jpeg"
 
 ];
 
