@@ -63,18 +63,51 @@ self.addEventListener("activate", event => {
 });
 
 
-// Interceptar peticiones
 self.addEventListener("fetch", event => {
+    const url = new URL(event.request.url);
 
-    event.respondWith(
+    const isTile = url.hostname.includes("tile.openstreetmap.org");
 
-        caches.match(event.request)
-            .then(response => {
+    // MAPAS 
+    if (isTile) {
+        event.respondWith(
+            caches.open("tiles-cache").then(async cache => {
+                const cached = await cache.match(event.request);
 
-                return response || fetch(event.request);
+                if (cached) return cached;
 
+                try {
+                    const response = await fetch(event.request);
+
+                    if (response && response.status === 200) {
+                        cache.put(event.request, response.clone());
+                    }
+
+                    return response;
+
+                } catch (err) {
+                    return new Response("", { status: 503 });
+                }
             })
+        );
 
+        return;
+    }
+
+    // APP NORMAL 
+    event.respondWith(
+        caches.match(event.request).then(cached => {
+            return (
+                cached ||
+                fetch(event.request).catch(() => {
+                    // fallback seguro si estás offline
+                    if (event.request.destination === "document") {
+                        return caches.match("./index.html");
+                    }
+
+                    return new Response("", { status: 503 });
+                })
+            );
+        })
     );
-
 });
