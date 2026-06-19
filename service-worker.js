@@ -1,7 +1,13 @@
 const CACHE_NAME = "relevamiento-v1";
 
 const ARCHIVOS_CACHE = [
-    "./index.html"
+    "./index.html",
+    "./css/estilos.css",
+    "./js/app.js",
+    "./js/camara.js",
+    "./js/ubicacion.js",
+    "./js/ocr.js",
+    "./js/copiar.js",
 
 ];
 
