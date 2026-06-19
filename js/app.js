@@ -1,14 +1,37 @@
-self.addEventListener("install", event => {
+if ("serviceWorker" in navigator) {
 
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(cache => {
-                console.log("Guardando archivos...");
-                return cache.addAll(ARCHIVOS_CACHE);
+    window.addEventListener("load", () => {
+
+        navigator.serviceWorker.register("service-worker.js")
+            .then(() => {
+                console.log("Service Worker registrado.");
             })
             .catch(error => {
-                console.error("Error de caché:", error);
+                console.error("Error al registrar Service Worker:", error);
+            });
+
+    });
+
+    self.addEventListener("install", event => {
+
+    event.waitUntil(
+
+        caches.open(CACHE_NAME)
+            .then(cache => {
+
+                console.log("Intentando cachear:", ARCHIVOS_CACHE);
+
+                return cache.addAll(ARCHIVOS_CACHE);
+
             })
+            .catch(error => {
+
+                console.error("ERROR CACHE:", error);
+
+            })
+
     );
 
 });
+
+}
