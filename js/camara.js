@@ -3,6 +3,7 @@ const video = document.getElementById("camara");
 const botonIniciarCamara = document.getElementById("btn-iniciar-camara");
 const botonCapturar = document.getElementById("btn-capturar");
 const botonOCR = document.getElementById("btn-ocr");
+const botonNuevoRelevamiento = document.getElementById("btn-nuevo-relevamiento");
 const canvas = document.getElementById("imagen-capturada");
 
 const contexto = canvas.getContext("2d");
@@ -62,12 +63,38 @@ function capturarImagen() {
     // Habilitar OCR porque ya existe una imagen capturada
     botonOCR.disabled = false;
 
+    // Habilitar nuevo relevamiento
+    botonNuevoRelevamiento.disabled = false;
 
-    // Aquí después llamaremos a la ubicación automática
-    // obtenerUbicacion();
+    // Obtener ubicación automáticamente al realizar el relevamiento
+    obtenerUbicacion();
 }
 
+function nuevoRelevamiento() {
+
+    // Limpiar imagen
+    contexto.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.style.display = "none";
+
+    // Limpiar texto OCR
+    document.getElementById("texto-ocr").value = "";
+
+    // Limpiar mapa
+    const mapaDiv = document.getElementById("mapa");
+
+    if (typeof mapa !== "undefined" && mapa) {
+        mapa.remove();
+        mapa = null;
+    }
+
+    mapaDiv.innerHTML = "La ubicación se mostrará aquí luego de capturar una imagen.";
+
+    // Deshabilitar botones
+    botonOCR.disabled = true;
+    botonNuevoRelevamiento.disabled = true;
+}
 
 // Eventos de botones
 botonIniciarCamara.addEventListener("click", iniciarCamara);
 botonCapturar.addEventListener("click", capturarImagen);
+botonNuevoRelevamiento.addEventListener("click", nuevoRelevamiento);

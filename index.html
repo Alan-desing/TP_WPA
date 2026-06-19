@@ -6,6 +6,9 @@
     <title>Relevamiento Técnico PWA</title>
 
     <link rel="stylesheet" href="css/estilos.css">
+
+    <!-- Estilos de Leaflet para el mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 </head>
 
 <body>
@@ -17,6 +20,7 @@
 
     <main>
 
+        <!-- Sección de cámara -->
         <section id="seccion-camara">
             <h2>Captura de imagen</h2>
 
@@ -34,6 +38,10 @@
 
             <button id="btn-ocr" disabled>
                 Extraer texto
+            </button>
+
+            <button id="btn-nuevo-relevamiento" disabled>
+                Nuevo relevamiento
             </button>
         </section>
 
@@ -59,7 +67,7 @@
             <h2>Ubicación del relevamiento</h2>
 
             <div id="mapa">
-                Obteniendo ubicación...
+                La ubicación se mostrará aquí luego de capturar una imagen.
             </div>
 
         </section>
@@ -67,6 +75,10 @@
     </main>
 
 
+    <!-- Librería de Leaflet -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Archivos de la aplicación -->
     <script src="js/app.js"></script>
     <script src="js/camara.js"></script>
     <script src="js/ocr.js"></script>
