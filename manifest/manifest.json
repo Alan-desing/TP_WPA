@@ -2,7 +2,7 @@
     "name": "Relevamiento Técnico PWA",
     "short_name": "Relevamiento",
     "description": "Aplicación para relevamiento técnico mediante OCR y geolocalización.",
-    "start_url": "/TP_WPA/",
+    "start_url": "/TP_WPA/index.html",
     "scope": "/TP_WPA/",
     "display": "standalone",
     "background_color": "#ffffff",
