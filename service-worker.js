@@ -68,46 +68,39 @@ self.addEventListener("fetch", event => {
 
     const isTile = url.hostname.includes("tile.openstreetmap.org");
 
-    // MAPAS 
-    if (isTile) {
-        event.respondWith(
-            caches.open("tiles-cache").then(async cache => {
-                const cached = await cache.match(event.request);
+    event.respondWith((async () => {
+        try {
 
+            // TILES
+            if (isTile) {
+                const cache = await caches.open("tiles-cache");
+
+                const cached = await cache.match(event.request);
                 if (cached) return cached;
 
-                try {
-                    const response = await fetch(event.request);
+                const response = await fetch(event.request);
 
-                    if (response && response.status === 200) {
-                        cache.put(event.request, response.clone());
-                    }
-
-                    return response;
-
-                } catch (err) {
-                    return new Response("", { status: 503 });
+                if (response && response.status === 200) {
+                    cache.put(event.request, response.clone());
                 }
-            })
-        );
 
-        return;
-    }
+                return response;
+            }
 
-    // APP NORMAL 
-    event.respondWith(
-        caches.match(event.request).then(cached => {
-            return (
-                cached ||
-                fetch(event.request).catch(() => {
-                    // fallback seguro si estás offline
-                    if (event.request.destination === "document") {
-                        return caches.match("./index.html");
-                    }
+            // APP NORMAL
+            const cached = await caches.match(event.request);
+            if (cached) return cached;
 
-                    return new Response("", { status: 503 });
-                })
-            );
-        })
-    );
+            const response = await fetch(event.request);
+            return response;
+
+        } catch (err) {
+
+            if (event.request.destination === "document") {
+                return caches.match("./index.html");
+            }
+
+            return new Response("", { status: 503 });
+        }
+    })());
 });
