@@ -1,17 +1,21 @@
 const CACHE_NAME = "relevamiento-v1";
 
 const ARCHIVOS_CACHE = [
+    "./",
     "./index.html",
+
     "./css/estilos.css",
+
     "./js/app.js",
     "./js/camara.js",
     "./js/ubicacion.js",
     "./js/ocr.js",
     "./js/copiar.js",
+
     "./manifest/manifest.json",
+
     "./assets/iconos/icono-192.jpeg",
     "./assets/iconos/icono-512.jpeg"
-
 ];
 
 
@@ -19,12 +23,9 @@ const ARCHIVOS_CACHE = [
 self.addEventListener("install", event => {
 
     event.waitUntil(
-
         caches.open(CACHE_NAME)
-            .then(cache => {
-                return cache.addAll(ARCHIVOS_CACHE);
-            })
-
+            .then(cache => cache.addAll(ARCHIVOS_CACHE))
+            .then(() => self.skipWaiting())
     );
 
 });
@@ -35,10 +36,11 @@ self.addEventListener("activate", event => {
 
     event.waitUntil(
 
-        caches.keys()
-            .then(cacheNames => {
+        Promise.all([
 
-                return Promise.all(
+            caches.keys().then(cacheNames =>
+
+                Promise.all(
 
                     cacheNames.map(cache => {
 
@@ -48,9 +50,13 @@ self.addEventListener("activate", event => {
 
                     })
 
-                );
+                )
 
-            })
+            ),
+
+            self.clients.claim()
+
+        ])
 
     );
 
