@@ -14,36 +14,26 @@ function obtenerUbicacion() {
     );
 }
 
+
 function mostrarUbicacion(posicion) {
 
     const latitud = posicion.coords.latitude;
     const longitud = posicion.coords.longitude;
 
-    // reiniciar mapa si ya existe
+    // Si el mapa ya existe, se elimina para actualizarlo
     if (mapa) {
         mapa.remove();
     }
 
-    // crear mapa
+    // Crear mapa centrado en la ubicación actual
     mapa = L.map("mapa").setView([latitud, longitud], 16);
 
-    // capa de tiles con fallback seguro
+    // Cargar mapa de OpenStreetMap
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-
-        attribution: "&copy; OpenStreetMap",
-
-        maxZoom: 19,
-
-        crossOrigin: true,
-
-        errorTileUrl: "./assets/iconos/icono-192.jpeg",
-
-        updateWhenIdle: true,
-        keepBuffer: 2
-
+        attribution: "&copy; OpenStreetMap"
     }).addTo(mapa);
 
-    // marcador
+    // Crear marcador
     marcador = L.marker([latitud, longitud])
         .addTo(mapa)
         .bindPopup("Ubicación del relevamiento")
@@ -53,6 +43,7 @@ function mostrarUbicacion(posicion) {
     console.log("Latitud:", latitud);
     console.log("Longitud:", longitud);
 }
+
 
 function mostrarError(error) {
 
